@@ -21,3 +21,18 @@ message LoginRsp {
 message Heartbeat {
     int64 timestamp = 1;                                                        // 客户端当前时间戳
 }
+
+// =========================================================================================
+// 2. 远程控制业务 (2000 - 2999)
+// =========================================================================================
+message ScreenFrame {
+    uint64 frame_index   = 1;                                                   // 帧序号
+    int64  capture_ms    = 2;                                                   // 截图时刻（毫秒时间戳）
+    bytes  jpeg_data     = 3;                                                   // JPEG 压缩数据
+    int32  width         = 4;                                                   // 宽度
+    int32  height        = 5;                                                   // 高度
+}
+
+message ControlCmd {
+    string json_cmd = 1;                                                        // JSON 字符串，如 {"type":"mouse_move","x":100,"y":200}
+}

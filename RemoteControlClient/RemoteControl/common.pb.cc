@@ -88,44 +88,21 @@ const char descriptor_table_protodef_common_2eproto[] ABSL_ATTRIBUTE_SECTION_VAR
     "\n\014common.proto\022\tServerApi\"}\n\014PacketHeade"
     "r\022 \n\006msg_id\030\001 \001(\0162\020.ServerApi.MsgId\022\016\n\006s"
     "eq_id\030\002 \001(\004\022(\n\nerror_code\030\003 \001(\0162\024.Server"
-    "Api.ErrorCode\022\021\n\terror_msg\030\004 \001(\t*\352\005\n\005Msg"
-    "Id\022\016\n\nID_UNKNOWN\020\000\022\020\n\014ID_HEARTBEAT\020\001\022\021\n\014"
-    "ID_LOGIN_REQ\020\351\007\022\021\n\014ID_LOGIN_RSP\020\352\007\022\036\n\031ID"
-    "_ADD_USER_VR_DEVICE_REQ\020\361\007\022\036\n\031ID_ADD_USE"
-    "R_VR_DEVICE_RSP\020\362\007\022\036\n\031ID_DEL_USER_VR_DEV"
-    "ICE_REQ\020\363\007\022\036\n\031ID_DEL_USER_VR_DEVICE_RSP\020"
-    "\364\007\022\036\n\031ID_UPDATE_DEVICE_NICK_REQ\020\367\007\022\036\n\031ID"
-    "_UPDATE_DEVICE_NICK_RSP\020\370\007\022\036\n\031ID_UPDATE_"
-    "DEVICE_TEAM_REQ\020\371\007\022\036\n\031ID_UPDATE_DEVICE_T"
-    "EAM_RSP\020\372\007\022#\n\036ID_UPDATE_DEVICE_PLAY_TIME"
-    "_REQ\020\373\007\022#\n\036ID_UPDATE_DEVICE_PLAY_TIME_RS"
-    "P\020\374\007\022\036\n\031ID_GET_VR_DEVICE_LIST_REQ\020\375\007\022\036\n\031"
-    "ID_GET_VR_DEVICE_LIST_RSP\020\376\007\022\026\n\021ID_GET_W"
-    "ALLET_REQ\020\211\'\022\026\n\021ID_GET_WALLET_RSP\020\212\'\022\025\n\020"
-    "ID_GET_GOODS_REQ\020\213\'\022\025\n\020ID_GET_GOODS_RSP\020"
-    "\214\'\022\030\n\023ID_CREATE_ORDER_REQ\020\215\'\022\030\n\023ID_CREAT"
-    "E_ORDER_RSP\020\216\'\022\031\n\024ID_ORDER_NOTIFY_PUSH\020\217"
-    "\'\022\032\n\025ID_CONSUME_POINTS_REQ\020\220\'\022\032\n\025ID_CONS"
-    "UME_POINTS_RSP\020\221\'\022\024\n\017ID_GET_FLOW_REQ\020\222\'\022"
-    "\024\n\017ID_GET_FLOW_RSP\020\223\'*\236\003\n\tErrorCode\022\017\n\013E"
-    "RR_SUCCESS\020\000\022\027\n\023ERR_SERVER_INTERNAL\020\001\022\021\n"
-    "\rERR_WRONG_PWD\020\002\022\026\n\022ERR_ACCOUNT_IN_USE\020\003"
-    "\022\027\n\023ERR_ACCOUNT_EXPIRED\020\004\022\035\n\031ERR_DEVICE_"
-    "ALREADY_EXISTS\020\036\022\030\n\024ERR_DEVICE_NOT_FOUND"
-    "\020\037\022\034\n\030ERR_DEVICE_LIMIT_REACHED\020 \022\026\n\022ERR_"
-    "DEVICE_OFFLINE\020!\022\033\n\027ERR_INSUFFICIENT_POI"
-    "NTS\020\t\022\026\n\022ERR_ORDER_NOT_PAID\020\n\022\024\n\020ERR_ORD"
-    "ER_CLOSED\020\013\022\025\n\021ERR_GOODS_OFFLINE\020\014\022\035\n\031ER"
-    "R_GENERATE_TOKEN_FAILED\020\r\022\033\n\027ERR_CREATE_"
-    "ORDER_FAILED\020\016\022\026\n\022ERR_PAY_API_FAILED\020\017*;"
-    "\n\010FileType\022\020\n\014FILE_UNKNOWN\020\000\022\016\n\nFILE_MOV"
-    "IE\020\001\022\r\n\tFILE_GAME\020\002b\006proto3"
+    "Api.ErrorCode\022\021\n\terror_msg\030\004 \001(\t*z\n\005MsgI"
+    "d\022\016\n\nID_UNKNOWN\020\000\022\020\n\014ID_HEARTBEAT\020\001\022\021\n\014I"
+    "D_LOGIN_REQ\020\351\007\022\021\n\014ID_LOGIN_RSP\020\352\007\022\024\n\017ID_"
+    "SCREEN_FRAME\020\321\017\022\023\n\016ID_CONTROL_CMD\020\322\017*y\n\t"
+    "ErrorCode\022\017\n\013ERR_SUCCESS\020\000\022\027\n\023ERR_SERVER"
+    "_INTERNAL\020\001\022\021\n\rERR_WRONG_PWD\020\002\022\026\n\022ERR_AC"
+    "COUNT_IN_USE\020\003\022\027\n\023ERR_ACCOUNT_EXPIRED\020\004*"
+    ";\n\010FileType\022\020\n\014FILE_UNKNOWN\020\000\022\016\n\nFILE_MO"
+    "VIE\020\001\022\r\n\tFILE_GAME\020\002b\006proto3"
 };
 static ::absl::once_flag descriptor_table_common_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_common_2eproto = {
     false,
     false,
-    1387,
+    468,
     descriptor_table_protodef_common_2eproto,
     "common.proto",
     &descriptor_table_common_2eproto_once,
@@ -144,7 +121,7 @@ const ::google::protobuf::EnumDescriptor* MsgId_descriptor() {
   return file_level_enum_descriptors_common_2eproto[0];
 }
 PROTOBUF_CONSTINIT const uint32_t MsgId_internal_data_[] = {
-    131072u, 1638400u, 5002u, 1016u, 5008u, 1010u, 1020u, 5006u, 5010u, 1002u, 1012u, 1018u, 1022u, 5004u, 5007u, 5009u, 5011u, 1001u, 1009u, 1011u, 1015u, 1017u, 1019u, 1021u, 5001u, 5003u, 5005u, };
+    131072u, 262144u, 2001u, 1002u, 2002u, 1001u, };
 bool MsgId_IsValid(int value) {
   return ::_pbi::ValidateEnum(value, MsgId_internal_data_);
 }
@@ -153,9 +130,9 @@ const ::google::protobuf::EnumDescriptor* ErrorCode_descriptor() {
   return file_level_enum_descriptors_common_2eproto[1];
 }
 PROTOBUF_CONSTINIT const uint32_t ErrorCode_internal_data_[] = {
-    327680u, 32u, 503318512u, };
+    327680u, 0u, };
 bool ErrorCode_IsValid(int value) {
-  return 0 <= value && value <= 33 && ((16106192415u >> value) & 1) != 0;
+  return 0 <= value && value <= 4;
 }
 const ::google::protobuf::EnumDescriptor* FileType_descriptor() {
   ::google::protobuf::internal::AssignDescriptors(&descriptor_table_common_2eproto);

@@ -117,6 +117,57 @@ void TCPMgr::InitHandlers()
         // 一般心跳不需要复杂处理，只需知道服务器活着即可
         // qDebug() << "[TCPMgr] 收到服务器心跳回应";
         };
+
+    // ------------------------------------------------------------------
+    // 注册 [远程屏幕帧] 的处理逻辑
+    // ------------------------------------------------------------------
+    m_router[ServerApi::ID_SCREEN_FRAME] = [this](const ServerApi::PacketHeader& header, const QByteArray& bodyData) {
+        ServerApi::ScreenFrame frame;
+        if (!frame.ParseFromArray(bodyData.data(), bodyData.size())) {
+            qWarning() << "[TCPMgr] ScreenFrame 解析失败";
+            return;
+        }
+
+        // 1. 安全解码 JPEG → QImage（必须拷贝数据，不能用 fromRawData）
+        QByteArray jpegBytes(frame.jpeg_data().data(), frame.jpeg_data().size());
+        QImage img = QImage::fromData(jpegBytes, "JPEG");
+        if (img.isNull()) {
+            qWarning() << "[TCPMgr] JPEG 解码失败";
+            return;
+        }
+
+        // 2. 计算延迟
+        qint64 now = QDateTime::currentMSecsSinceEpoch();
+        qint64 latency = now - frame.capture_ms();
+
+        // 3. 计算 FPS（简单平均，可优化）
+        static int frameCount = 0;
+        static qint64 lastFpsTime = 0;
+        double fps = 0.0;
+        frameCount++;
+        if (now - lastFpsTime >= 1000) {
+            fps = frameCount * 1000.0 / (now - lastFpsTime);
+            frameCount = 0;
+            lastFpsTime = now;
+        }
+
+        // 4. 发射信号到 UI
+        emit SigScreenFrame(img, latency, fps);
+        };
+
+    // ------------------------------------------------------------------
+    // 注册 [远程操控指令] 的处理逻辑
+    // ------------------------------------------------------------------
+    m_router[ServerApi::ID_CONTROL_CMD] = [this](const ServerApi::PacketHeader& header, const QByteArray& bodyData) {
+        ServerApi::ControlCmd cmd;
+        if (cmd.ParseFromArray(bodyData.data(), bodyData.size())) {
+            QByteArray json = QByteArray::fromStdString(cmd.json_cmd());
+            emit SigControlCmd(json);
+        }
+        else {
+            qWarning() << "[TCPMgr] ControlCmd 解析失败";
+        }
+        };
 }
 
 // =========================================================================================

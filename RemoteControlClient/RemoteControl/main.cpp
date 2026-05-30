@@ -61,45 +61,21 @@ void LoadStyle(QApplication* app)
 void RegisterMetaTypes()
 {
     // =========================================================================================
-    // 1. 👑 核心业务结构体 (解决跨线程 UI 渲染报错的关键)
-    // =========================================================================================
-    qRegisterMetaType<DeviceInfo>("DeviceInfo");                                    // 单个设备信息
-    qRegisterMetaType<QVector<DeviceInfo>>("QVector<DeviceInfo>");                  // 设备信息列表 (解决 Cannot queue arguments 报错)
-
-    // =========================================================================================
-    // 2. 核心与基础枚举
+    // 1. 核心与基础枚举
     // =========================================================================================
     qRegisterMetaType<ServerApi::MsgId>("ServerApi::MsgId");
     qRegisterMetaType<ServerApi::FileType>("ServerApi::FileType");                  // 底层引擎文件类型过滤枚举
 
     // =========================================================================================
-    // 3. 登录与基础模块
+    // 2. 登录与基础模块
     // =========================================================================================
     qRegisterMetaType<ServerApi::LoginRsp>("ServerApi::LoginRsp");                  // 登录响应
 
     // =========================================================================================
-    // 4. 🥽 VR 设备管理模块相关响应 (👑 最新增补)
+    // 3. 远程控制模块
     // =========================================================================================
-    qRegisterMetaType<ServerApi::AddUserVrDeviceRsp>("ServerApi::AddUserVrDeviceRsp");         // 添加设备响应
-    qRegisterMetaType<ServerApi::DelUserVrDeviceRsp>("ServerApi::DelUserVrDeviceRsp");         // 删除设备响应
-    qRegisterMetaType<ServerApi::UpdateDeviceNickRsp>("ServerApi::UpdateDeviceNickRsp");       // 更新昵称响应
-    qRegisterMetaType<ServerApi::UpdateDeviceTeamRsp>("ServerApi::UpdateDeviceTeamRsp");       // 更新队伍响应
-    qRegisterMetaType<ServerApi::UpdateDevicePlayTimeRsp>("ServerApi::UpdateDevicePlayTimeRsp"); // 更新时间响应
-    qRegisterMetaType<ServerApi::GetVrDeviceListRsp>("ServerApi::GetVrDeviceListRsp");         // 获取设备列表响应
-    qRegisterMetaType<ServerApi::VrDeviceSummary>("ServerApi::VrDeviceSummary");               // 单个设备摘要(PB)
-
-    // =========================================================================================
-    // 5. 💰 支付与商业化模块
-    // =========================================================================================
-    qRegisterMetaType<ServerApi::GetWalletRsp>("ServerApi::GetWalletRsp");          // 钱包余额与历史统计响应
-    qRegisterMetaType<ServerApi::GetGoodsRsp>("ServerApi::GetGoodsRsp");            // 充值套餐列表响应
-    qRegisterMetaType<ServerApi::CreateOrderRsp>("ServerApi::CreateOrderRsp");      // 订单创建与二维码下发响应
-    qRegisterMetaType<ServerApi::OrderNotifyPush>("ServerApi::OrderNotifyPush");    // 支付成功异步推送通知
-    qRegisterMetaType<ServerApi::GetFlowRsp>("ServerApi::GetFlowRsp");              // 资金流水列表响应
-
-    // 💡 提示：如果信号里传递了列表内的单条数据或结构体，也需要注册以确保跨线程安全
-    qRegisterMetaType<ServerApi::GoodsInfo>("ServerApi::GoodsInfo");                // 单条充值套餐结构体
-    qRegisterMetaType<ServerApi::PointFlowRecord>("ServerApi::PointFlowRecord");    // 单条资金流水记录
+    qRegisterMetaType<ServerApi::ScreenFrame>("ServerApi::ScreenFrame");            // 屏幕帧数据
+    qRegisterMetaType<ServerApi::ControlCmd>("ServerApi::ControlCmd");              // 控制指令
 }
 
 void LoadAppLanguage()

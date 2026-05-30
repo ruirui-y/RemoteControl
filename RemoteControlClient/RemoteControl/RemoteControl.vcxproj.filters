@@ -96,6 +96,18 @@
     <Filter Include="Header Files\SELF_UI\Common">
       <UniqueIdentifier>{ce7a11c8-7e1c-49b7-abb8-c4c3de58f3f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SELF_UI\StackPage\ControlPage">
+      <UniqueIdentifier>{63183d7c-c1cc-4dcf-bcd8-edfd1422e28a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SELF_UI\StackPage\AgentPage">
+      <UniqueIdentifier>{a5189ee7-37cf-449d-aca6-3b75ee8a1184}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SELF_UI\StackPage\ControlPage">
+      <UniqueIdentifier>{3e7aa4ac-a577-4197-85d1-2f8ab45b35c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SELF_UI\StackPage\AgentPage">
+      <UniqueIdentifier>{bbd72297-b4fe-41ea-8a7e-75698782b46b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="mainWindow.ui">
@@ -168,6 +180,24 @@
     </ClCompile>
     <ClCompile Include="CinemaDialogBase.cpp">
       <Filter>Source Files\CustomUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AgentPageWidget.cpp">
+      <Filter>Source Files\SELF_UI\StackPage\AgentPage</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlPageWidget.cpp">
+      <Filter>Source Files\SELF_UI\StackPage\ControlPage</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoteScreenWidget.cpp">
+      <Filter>Source Files\SELF_UI\StackPage\ControlPage</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlPageWidget.cpp">
+      <Filter>Source Files\SELF_UI\StackPage\ControlPage</Filter>
+    </ClCompile>
+    <ClCompile Include="RemoteScreenWidget.cpp">
+      <Filter>Source Files\SELF_UI\StackPage\ControlPage</Filter>
+    </ClCompile>
+    <ClCompile Include="AgentPageWidget.cpp">
+      <Filter>Source Files\SELF_UI\StackPage\AgentPage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +280,15 @@
     </QtMoc>
     <QtMoc Include="CinemaPayDialog.h">
       <Filter>Header Files\CustomUI</Filter>
+    </QtMoc>
+    <QtMoc Include="ControlPageWidget.h">
+      <Filter>Header Files\SELF_UI\StackPage\ControlPage</Filter>
+    </QtMoc>
+    <QtMoc Include="AgentPageWidget.h">
+      <Filter>Header Files\SELF_UI\StackPage\AgentPage</Filter>
+    </QtMoc>
+    <QtMoc Include="RemoteScreenWidget.h">
+      <Filter>Header Files\SELF_UI\StackPage\ControlPage</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

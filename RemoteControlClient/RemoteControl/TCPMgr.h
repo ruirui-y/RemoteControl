@@ -47,6 +47,10 @@ signals:
     void SigLoginSuccess();                                                                         // 登陆成功
     void SigLoginFailed(int errorCode, QString msg);                                                // 登陆失败 (带上 Protobuf 传回来的错误码和提示)
 
+    // 远程屏幕帧信号
+    void SigScreenFrame(const QImage& img, qint64 latencyMs, double fps);                           // 远程屏幕帧数据
+    void SigControlCmd(const QByteArray& jsonCmd);                                                  // 远程控制指令信号
+
 private:
     void InitTcpSocket();                                                                           // 初始化TCP套接字
     void InitHearbeatTimer();                                                                       // 初始化心跳定时器

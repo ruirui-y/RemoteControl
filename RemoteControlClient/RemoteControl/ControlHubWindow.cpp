@@ -10,6 +10,8 @@
 #include "GameItem.h"
 #include "SettingWidget.h"
 #include "UserMgr.h"
+#include "ControlPageWidget.h"
+#include "AgentPageWidget.h"
 
 // 假设你有一个定义侧边栏宽度的宏，如果没有可以在这里写死比如 200
 #ifndef HZ_LIST_WIDTH
@@ -48,6 +50,8 @@ ControlHubWindow::ControlHubWindow(QWidget* parent) : QWidget(parent)
     // ==========================================================
     // 4. 左侧边栏 (剥离了 MiniWorld 概念，替换为中控模块名)
     // ==========================================================
+    m_gameItems.insert(tr("远程控制"), ":/icons/remote_control.png");   // 索引 0
+    m_gameItems.insert(tr("本机被控"), ":/icons/local_agent.png");     // 索引 1
     m_gameItems.insert(tr("系统设置"), ":/MiNi/Images/MiNiWorld/Setting.png");
 
     m_leftList_c = new QListWidget(center);
@@ -59,7 +63,10 @@ ControlHubWindow::ControlHubWindow(QWidget* parent) : QWidget(parent)
 
     // 按钮组
     m_leftList_btns = new QButtonGroup(m_leftList_c);
-    m_leftList_btns->setExclusive(true);                                               // 互斥选中
+    m_leftList_btns->setExclusive(true);                                                // 互斥选中
+
+    AddGameItem(tr("远程控制"));  // 按钮 id: 2
+    AddGameItem(tr("本机被控"));  // 按钮 id: 0
 
     // 添加弹簧把上面三个标签顶上去
     listLayout->addStretch(1);
@@ -79,8 +86,12 @@ ControlHubWindow::ControlHubWindow(QWidget* parent) : QWidget(parent)
     m_stack->setContentsMargins(0, 0, 0, 0);
     m_stack->setSpacing(0);
 
-    // 系统设置窗口
+    ControlPageWidget* controlPage = new ControlPageWidget(center);                                      // 控制端
+    AgentPageWidget* agentPage = new AgentPageWidget(center);                                          // 被控端
     SettingWidget* setting = new SettingWidget(center);
+
+    m_stack->addWidget(controlPage);
+    m_stack->addWidget(agentPage);
     m_stack->addWidget(setting);
 
     // 绑定侧边栏切换信号

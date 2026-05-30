@@ -105,13 +105,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AccountWidget.cpp" />
+    <ClCompile Include="AgentPageWidget.cpp" />
     <ClCompile Include="CinemaDialogBase.cpp" />
     <ClCompile Include="common.pb.cc" />
+    <ClCompile Include="ControlPageWidget.cpp" />
     <ClCompile Include="GameItem.cpp" />
     <ClCompile Include="Global.cpp" />
     <ClCompile Include="ControlHubWindow.cpp" />
     <ClCompile Include="JsonTool.cpp" />
     <ClCompile Include="LoginWidget.cpp" />
+    <ClCompile Include="RemoteScreenWidget.cpp" />
     <ClCompile Include="server_msg.pb.cc" />
     <ClCompile Include="SettingWidget.cpp" />
     <ClCompile Include="TCPMgr.cpp" />
@@ -131,6 +134,9 @@
     <QtMoc Include="CinemaMessageBox.h" />
     <QtMoc Include="CinemaTableWidget.h" />
     <QtMoc Include="CinemaPayDialog.h" />
+    <QtMoc Include="ControlPageWidget.h" />
+    <QtMoc Include="AgentPageWidget.h" />
+    <QtMoc Include="RemoteScreenWidget.h" />
     <ClInclude Include="Struct.h" />
     <QtMoc Include="WorkerThread.h" />
     <QtMoc Include="ThreadPool.h" />

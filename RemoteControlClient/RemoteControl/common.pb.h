@@ -68,29 +68,8 @@ enum MsgId : int {
   ID_HEARTBEAT = 1,
   ID_LOGIN_REQ = 1001,
   ID_LOGIN_RSP = 1002,
-  ID_ADD_USER_VR_DEVICE_REQ = 1009,
-  ID_ADD_USER_VR_DEVICE_RSP = 1010,
-  ID_DEL_USER_VR_DEVICE_REQ = 1011,
-  ID_DEL_USER_VR_DEVICE_RSP = 1012,
-  ID_UPDATE_DEVICE_NICK_REQ = 1015,
-  ID_UPDATE_DEVICE_NICK_RSP = 1016,
-  ID_UPDATE_DEVICE_TEAM_REQ = 1017,
-  ID_UPDATE_DEVICE_TEAM_RSP = 1018,
-  ID_UPDATE_DEVICE_PLAY_TIME_REQ = 1019,
-  ID_UPDATE_DEVICE_PLAY_TIME_RSP = 1020,
-  ID_GET_VR_DEVICE_LIST_REQ = 1021,
-  ID_GET_VR_DEVICE_LIST_RSP = 1022,
-  ID_GET_WALLET_REQ = 5001,
-  ID_GET_WALLET_RSP = 5002,
-  ID_GET_GOODS_REQ = 5003,
-  ID_GET_GOODS_RSP = 5004,
-  ID_CREATE_ORDER_REQ = 5005,
-  ID_CREATE_ORDER_RSP = 5006,
-  ID_ORDER_NOTIFY_PUSH = 5007,
-  ID_CONSUME_POINTS_REQ = 5008,
-  ID_CONSUME_POINTS_RSP = 5009,
-  ID_GET_FLOW_REQ = 5010,
-  ID_GET_FLOW_RSP = 5011,
+  ID_SCREEN_FRAME = 2001,
+  ID_CONTROL_CMD = 2002,
   MsgId_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   MsgId_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -100,8 +79,8 @@ enum MsgId : int {
 bool MsgId_IsValid(int value);
 extern const uint32_t MsgId_internal_data_[];
 constexpr MsgId MsgId_MIN = static_cast<MsgId>(0);
-constexpr MsgId MsgId_MAX = static_cast<MsgId>(5011);
-constexpr int MsgId_ARRAYSIZE = 5011 + 1;
+constexpr MsgId MsgId_MAX = static_cast<MsgId>(2002);
+constexpr int MsgId_ARRAYSIZE = 2002 + 1;
 const ::google::protobuf::EnumDescriptor*
 MsgId_descriptor();
 template <typename T>
@@ -121,17 +100,6 @@ enum ErrorCode : int {
   ERR_WRONG_PWD = 2,
   ERR_ACCOUNT_IN_USE = 3,
   ERR_ACCOUNT_EXPIRED = 4,
-  ERR_DEVICE_ALREADY_EXISTS = 30,
-  ERR_DEVICE_NOT_FOUND = 31,
-  ERR_DEVICE_LIMIT_REACHED = 32,
-  ERR_DEVICE_OFFLINE = 33,
-  ERR_INSUFFICIENT_POINTS = 9,
-  ERR_ORDER_NOT_PAID = 10,
-  ERR_ORDER_CLOSED = 11,
-  ERR_GOODS_OFFLINE = 12,
-  ERR_GENERATE_TOKEN_FAILED = 13,
-  ERR_CREATE_ORDER_FAILED = 14,
-  ERR_PAY_API_FAILED = 15,
   ErrorCode_INT_MIN_SENTINEL_DO_NOT_USE_ =
       std::numeric_limits<::int32_t>::min(),
   ErrorCode_INT_MAX_SENTINEL_DO_NOT_USE_ =
@@ -141,8 +109,8 @@ enum ErrorCode : int {
 bool ErrorCode_IsValid(int value);
 extern const uint32_t ErrorCode_internal_data_[];
 constexpr ErrorCode ErrorCode_MIN = static_cast<ErrorCode>(0);
-constexpr ErrorCode ErrorCode_MAX = static_cast<ErrorCode>(33);
-constexpr int ErrorCode_ARRAYSIZE = 33 + 1;
+constexpr ErrorCode ErrorCode_MAX = static_cast<ErrorCode>(4);
+constexpr int ErrorCode_ARRAYSIZE = 4 + 1;
 const ::google::protobuf::EnumDescriptor*
 ErrorCode_descriptor();
 template <typename T>
@@ -150,7 +118,13 @@ const std::string& ErrorCode_Name(T value) {
   static_assert(std::is_same<T, ErrorCode>::value ||
                     std::is_integral<T>::value,
                 "Incorrect type passed to ErrorCode_Name().");
-  return ::google::protobuf::internal::NameOfEnum(ErrorCode_descriptor(), value);
+  return ErrorCode_Name(static_cast<ErrorCode>(value));
+}
+template <>
+inline const std::string& ErrorCode_Name(ErrorCode value) {
+  return ::google::protobuf::internal::NameOfDenseEnum<ErrorCode_descriptor,
+                                                 0, 4>(
+      static_cast<int>(value));
 }
 inline bool ErrorCode_Parse(absl::string_view name, ErrorCode* value) {
   return ::google::protobuf::internal::ParseNamedEnum<ErrorCode>(
