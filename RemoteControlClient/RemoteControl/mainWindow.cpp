@@ -26,18 +26,43 @@ mainWindow::mainWindow(QWidget *parent)
 
     BindSlots();
 
-    _LoginWidget = new LoginWidget(this);
-    // 绑定登录页标题栏的信号
-    TitleBar* loginTitle = _LoginWidget->GetTitle();
-    if (loginTitle) {
-        connect(loginTitle, &TitleBar::minimizeRequested, this, &QWidget::showMinimized);
-        connect(loginTitle, &TitleBar::closeRequested, this, &mainWindow::close);
-    }
-    
-    m_pages->addWidget(_LoginWidget);
-    m_pages->setCurrentWidget(_LoginWidget);
+    // 抛弃登录页功能 放到最后实现
+    {
+        // 发起tcp连接
+        auto tcp = ThreadPool::Instance()->GetTCPMgr();
+        ThreadPool::Instance()->PostTask(tcp, [=](TCPMgr* t)
+            {
+                t->SlotTcpConnect();
+            });
 
-    setFixedSize(_LoginWidget->size());
+        _ControlHub = new ControlHubWindow(this);
+        m_pages->addWidget(_ControlHub);
+
+        // 获取标题栏
+        TitleBar* title = _ControlHub->GetTitle();
+        connect(title, &TitleBar::minimizeRequested, this, &QWidget::showMinimized);                                // 最小化
+        connect(title, &TitleBar::closeRequested, this, &mainWindow::CloseWidget);                                  // 关闭
+
+        m_pages->addWidget(_ControlHub);
+        m_pages->setCurrentWidget(_ControlHub);
+
+        setFixedSize(_ControlHub->size());
+
+        show();
+    }
+
+    //_LoginWidget = new LoginWidget(this);
+    //// 绑定登录页标题栏的信号
+    //TitleBar* loginTitle = _LoginWidget->GetTitle();
+    //if (loginTitle) {
+    //    connect(loginTitle, &TitleBar::minimizeRequested, this, &QWidget::showMinimized);
+    //    connect(loginTitle, &TitleBar::closeRequested, this, &mainWindow::close);
+    //}
+    //
+    //m_pages->addWidget(_LoginWidget);
+    //m_pages->setCurrentWidget(_LoginWidget);
+
+    //setFixedSize(_LoginWidget->size());
 
     setWindowTitle("Demand Station");
 }

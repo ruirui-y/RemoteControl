@@ -105,10 +105,6 @@ void TCPMgr::InitHandlers()
         {
             qDebug() << u8"[TCPMgr] 登录成功! 服务器时间:" << rsp.server_time();
 
-            // 👑 核心：写入设备数量和游戏名称
-            UserMgr::Instance()->SetUserDeviceCounts(rsp.user_device_counts());
-            UserMgr::Instance()->SetGameName(QString::fromStdString(rsp.game_name()));
-
             StartHeartBeat();
             emit SigLoginSuccess();
         }
