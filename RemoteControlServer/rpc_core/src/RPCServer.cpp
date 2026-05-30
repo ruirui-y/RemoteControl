@@ -1,0 +1,137 @@
+#include "RPCServer.h"
+#include "common.pb.h"
+#include "RPCClosure.h"
+#include <mymuduo/Log/Logger.h>
+#include <endian.h>
+
+RPCServer::RPCServer(EventLoop* loop, std::string ip, uint16_t port)
+    :server_(loop, ip, port, 100), loop_(loop), ip_(ip), port_(port)
+{
+}
+
+void RPCServer::RegisterService(google::protobuf::Service* service)
+{
+	services[service->GetDescriptor()->name()] = service;
+}
+
+void RPCServer::Run(int thread_num, int conn_time_out)
+{
+	server_.SetMessageCallback(
+		[this](const std::shared_ptr<TcpConnection>& conn, Buffer* buffer)
+		{
+			OnMessage(conn, buffer);
+		});
+
+    server_.Start(thread_num);
+}
+
+void RPCServer::OnMessage(const std::shared_ptr<TcpConnection>& conn, Buffer* buffer)
+{
+    while (buffer->ReadableBytes() >= 4)
+    {
+        // 1. 偷看前4个字节（不从buffer剔除），获取 header_size
+        uint32_t header_size = buffer->PeekInt32();
+
+        // 2. 检查：连 rpc_header 都还没收全？
+        if (buffer->ReadableBytes() < 4 + header_size) 
+        {
+            break;                                                                                  // 半包，跳出循环等下一次 epoll 唤醒
+        }
+
+        // 3. 偷拿 header 数据进行反序列化（依然不剔除 buffer，因为 args 还没确认收全）
+        std::string rpc_header_str(buffer->peek() + 4, header_size);
+        omnibox::RpcHeader rpcHeader;
+        if (!rpcHeader.ParseFromString(rpc_header_str)) {
+            LOG_ERROR << "rpc header parse error!";
+            return;
+        }
+
+        uint32_t args_size = rpcHeader.args_size();
+
+        // 4. 检查：真正的请求体 (args) 收全了吗？
+        if (buffer->ReadableBytes() < 4 + header_size + args_size) 
+        {
+            break;                                                                                  // 半包，跳出循环继续等
+        }
+
+        // ============ 走到这里，说明一个完整的 RPC 请求终于拼齐了！============
+
+        // 5. 正式把这个完整包从 Buffer 里剥离出来
+        buffer->retrieve(4);                                                                        // 剥离长度信息
+        buffer->retrieve(header_size);                                                              // 剥离 header
+        std::string args_str = buffer->RetrieveAsString(args_size);                                 // 剥离并获取真正的参数数据
+
+        // 6. 后续的业务分发逻辑 (找服务、生成 request、CallMethod)
+        std::string service_name = rpcHeader.service_name();
+        auto it = services.find(service_name);
+        if (it == services.end()) {
+            LOG_ERROR << service_name << " is not exist!";
+            return;
+        }
+
+        // 根据服务名获取相关服务
+        google::protobuf::Service* service = it->second;
+
+        // 一个服务里不止一个rpc方法；根据方法索引获取对应的方法描述
+        const google::protobuf::MethodDescriptor* method = service->GetDescriptor()->method(rpcHeader.method_index());
+
+        // 根据方法描述获取请求，进而并反序列化
+        google::protobuf::Message* request = service->GetRequestPrototype(method).New();
+        if (!request->ParseFromString(args_str)) 
+        {
+            LOG_ERROR << "request parse error!";
+            delete request;                                                                         // 防止解析失败时内存泄漏
+            return;
+        }
+
+        // 创建对应rpc方法的响应
+        google::protobuf::Message* response = service->GetResponsePrototype(method).New();
+
+        uint64_t seq_id = rpcHeader.seq_id();
+
+        // 设置rpc方法完成后的回调函数, 用来区分是异步操作还是同步
+        google::protobuf::Closure* done = new RPCClosure(
+            [this, conn, request, response, seq_id]() 
+            {
+                this->SendRpcResponse(conn, response, seq_id);
+                
+                // 释放堆空间
+                if (request) delete request;
+                if (response) delete response;
+            }
+        );
+
+        // 调用rpc方法
+        service->CallMethod(method, nullptr, request, response, done);
+    }
+}
+
+// 长度(4B) + 序列号(8B) + 内容
+void RPCServer::SendRpcResponse(const std::shared_ptr<TcpConnection>& conn, google::protobuf::Message* response, uint64_t seq_id)
+{
+    std::string response_str;
+    if (response->SerializeToString(&response_str))
+    {
+        // 1. 计算除了 4 字节长度头之外的“总长度”：8字节 SeqID + PB数据长度
+        uint32_t total_len = 8 + response_str.size();
+
+        // 转换长度为网络字节序
+        uint32_t net_len = htonl(total_len);
+
+        // 2. 将 64 位单号转换为网络字节序 (Host to Big Endian 64)
+        uint64_t net_seq_id = htobe64(seq_id);
+
+        // 3. 完美拼装二进制流 (使用 append 更安全高效，避免 string 的 + 操作符可能带来的 '\0' 截断风险)
+        std::string send_str;
+        send_str.append((char*)&net_len, 4);                                                            // 头部 4 字节
+        send_str.append((char*)&net_seq_id, 8);                                                         // 单号 8 字节
+        send_str.append(response_str);                                                                  // 真实 PB 响应
+
+        // 发送给网关
+        conn->Send(send_str);
+    }
+    else
+    {
+        LOG_ERROR << "serialize response_str error!";
+    }
+}

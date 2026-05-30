@@ -1,0 +1,50 @@
+﻿syntax = "proto3";
+
+// 依然保持在 omnibox 命名空间
+package omnibox;
+
+// 【极其重要】引入外部的数据结构！
+import "server_msg.proto";
+
+// 【核心设置】告诉 protoc 编译器：帮我生成 C++ 的纯虚基类（RPC 桩）
+// 你的 RPC 框架就是要去继承并重写这些虚函数！
+option cc_generic_services = true;
+
+// ==============================================================================
+// 1. 鉴权与保活服务接口
+// ==============================================================================
+service LoginService 
+{
+    rpc Login(LoginRequest) returns(LoginResponse);                             // 处理登录方法
+    rpc Heartbeat(HeartbeatRequest) returns(HeartbeatResponse);                 // 心跳保活
+}
+
+// ==============================================================================
+// 2. 网关反向推送服务接口
+// ==============================================================================
+service GatewayService 
+{
+    // 后端调用此方法，网关负责将消息转发给真实的客户端
+    rpc PushMessage(PushMessageRequest) returns(PushMessageResponse);
+}
+
+// ==============================================================================
+// 3. 元数据与虚拟文件树服务接口
+// ==============================================================================
+service MetaService {
+    rpc CreateFolder(CreateFolderRequest) returns (CreateFolderResponse);
+    rpc DeleteNode(DeleteNodeRequest) returns (DeleteNodeResponse);
+    rpc CheckFile(CheckFileRequest) returns (CheckFileResponse);
+    rpc RenameNode(RenameNodeRequest) returns (RenameNodeResponse);
+    rpc MoveNode(MoveNodeRequest) returns (MoveNodeResponse);
+    rpc ListDirectory(ListDirectoryRequest) returns (ListDirectoryResponse);
+}
+
+// ==============================================================================
+// 4. 大文件传输服务接口
+// ==============================================================================
+service TransferService 
+{
+    // 流式上传碎片的接口
+    rpc UploadChunk(FileChunkUploadRequest) returns (FileChunkUploadResponse);
+}

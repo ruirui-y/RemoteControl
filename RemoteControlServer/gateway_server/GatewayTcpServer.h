@@ -1,0 +1,81 @@
+#ifndef GATEWAY_TCP_SERVER_H
+#define GATEWAY_TCP_SERVER_H
+
+#include <mymuduo/net/TcpServer.h>
+#include <mymuduo/net/EventLoop.h>
+#include <unordered_map>
+#include <mutex>
+#include <memory>
+#include <string>
+#include <functional>
+#include <mymuduo/net/EventLoopThread.h>
+#include <mymuduo/base/ThreadPool.h>
+#include "MyChannel.h"
+#include "common.pb.h"
+
+// 定义消息处理函数签名：入参是 (当前物理连接, 尚未反序列化的 Protobuf 纯二进制流)
+using MsgHandler = std::function<void(const std::shared_ptr<TcpConnection>&, const omnibox::PacketHeader&, const std::string&)>;
+
+class GatewayTcpServer
+{
+public:
+    GatewayTcpServer(EventLoop* loop, const std::string& ip, uint16_t port);
+
+    void Start(int thread_num);                                                                                         // 启动服务
+    bool PushMessageToClient(int32_t uid, uint32_t msg_type, const std::string& content);                               // 提供给内部 RPC 调用的核心接口：精准推送消息给某个物理客户端
+
+private:
+    void OnConnection(const std::shared_ptr<TcpConnection>& conn);                                                      // 底层网络回调
+    void OnMessage(const std::shared_ptr<TcpConnection>& conn, Buffer* buffer);
+
+private:
+    void RegisterHandler(uint32_t msg_id, MsgHandler handler);                                                          // 注册路由的回调函数
+
+    // 具体的业务处理函数 (登录)
+    void HandleLoginReq(const std::shared_ptr<TcpConnection>& conn, const omnibox::PacketHeader& header, 
+        const std::string& pb_data);
+
+    // =========================================================================
+    // 虚拟文件系统 (MetaService) 转发处理函数
+    // =========================================================================
+    void HandleListDirReq(const std::shared_ptr<TcpConnection>& conn, const omnibox::PacketHeader& header,
+        const std::string& pb_data);                                                                                    // 处理拉取目录列表请求
+
+    void HandleCreateFolderReq(const std::shared_ptr<TcpConnection>& conn, const omnibox::PacketHeader& header,
+        const std::string& pb_data);                                                                                    // 处理新建文件夹请求
+
+    void HandleRenameNodeReq(const std::shared_ptr<TcpConnection>& conn, const omnibox::PacketHeader& header,
+        const std::string& pb_data);                                                                                    // 处理重命名节点请求
+
+    void HandleDeleteNodeReq(const std::shared_ptr<TcpConnection>& conn, const omnibox::PacketHeader& header,
+        const std::string& pb_data);                                                                                    // 处理删除节点请求
+
+    void HandleMoveNodeReq(const std::shared_ptr<TcpConnection>& conn, const omnibox::PacketHeader& header,
+        const std::string& pb_data);                                                                                    // 处理移动节点请求
+
+    void SendToConn(const std::shared_ptr<TcpConnection>& conn, uint32_t msg_id,
+        omnibox::ErrorCode err_code,
+        const std::string& err_msg,
+        uint64_t seq_id, const std::string& pb_data);                                                                   // 发送数据
+private:
+    TcpServer server_;
+
+    EventLoop* loop_;
+    std::string ip_;
+    uint16_t port_;
+    std::shared_ptr<ThreadPool> thread_pool_;                                                                           // 负责处理一些业务事件
+
+    // 会话管理器 (封装在类内部，绝对安全)
+    std::mutex session_mutex_;
+    std::unordered_map<int32_t, std::shared_ptr<TcpConnection>> user_sessions_;
+    std::unordered_map<uint32_t, MsgHandler> msg_dispatcher_;                                                           // 事件分发
+
+    // 网关全局共享的rpc通信线程以及rpc通道
+    std::unique_ptr<EventLoopThread> rpc_client_thread_;
+    EventLoop* rpc_client_loop_;
+    std::shared_ptr<MyChannel> login_channel_;
+    std::shared_ptr<MyChannel> transfer_channel_;
+    std::shared_ptr<MyChannel> meta_channel_;
+};
+
+#endif
