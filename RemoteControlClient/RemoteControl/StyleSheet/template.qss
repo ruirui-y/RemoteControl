@@ -1,0 +1,930 @@
+﻿/* =========================================================================================
+   💡 核心控制台全局样式表 (ControlHub_StyleSheet.qss)
+   规范：使用"父类名"或"对象名(#)"进行作用域隔离，坚决防止不同界面的控件样式互相污染！
+   主题：模板文件，变量由 themes.json 注入
+   ========================================================================================= */
+
+/* ============================================================================== */
+/* [1] 全局基础配置与字体重置                                                     */
+/* ============================================================================== */
+* {
+    font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+    font-size: 14px;
+    color: {{text_primary}};
+    outline: none;                                                      /* 彻底移除点击时的系统虚线框 */
+}
+
+
+/* ============================================================================== */
+/* [2] 窗体基座与顶部标题栏 (MainWindow & TitleBar)                               */
+/* ============================================================================== */
+
+/* 2.1 主窗体 */
+mainWindow {
+    background-color: {{bg_primary}};                                   /* 全局极暗底色 (解决透明穿透与闪烁) */
+    border-radius: 8px;                                                 /* 外层主窗体基础圆角 */
+}
+
+ControlHubWindow {
+    background: transparent;                                            /* 中控窗口背景交由 mainWindow 绘制 */
+}
+
+/* 2.2 标题栏 */
+TitleBar {
+    background-color: {{bg_titlebar}};                                  /* 标题栏背景 */
+    border-bottom: 1px solid {{border_titlebar}};                       /* 标题栏底部分割线 */
+    border-top-left-radius: 8px;                                        /* 匹配主窗体左上圆角 */
+    border-top-right-radius: 8px;                                       /* 匹配主窗体右上圆角 */
+}
+
+TitleBar QPushButton#TitleAccountBtn {
+    border: none;
+    background: transparent;
+    color: {{text_secondary}};                                          /* 默认辅助色文字 */
+    font-size: 20px;
+    font-weight: 700;
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+TitleBar QPushButton#TitleAccountBtn:hover {
+    color: {{text_primary}};                                            /* 悬浮态主色文字 */
+}
+
+TitleBar QPushButton#TitleAccountBtn:pressed {
+    color: {{accent_primary}};                                          /* 按下态主题色文字 */
+}
+
+TitleBar QPushButton#TitleMinBtn,
+TitleBar QPushButton#TitleCloseBtn {
+    border: none;
+    background: transparent;
+    border-radius: 6px;                                                 /* 按钮基础圆角 */
+}
+
+TitleBar QPushButton#TitleMinBtn:hover {
+    background: {{hover_toolbtn}};                                      /* 悬浮态微亮背景 */
+}
+
+TitleBar QPushButton#TitleCloseBtn:hover {
+    background: {{danger}};                                             /* 关闭按钮悬浮红 */
+    border-top-right-radius: 8px;                                       /* 匹配主窗体右上圆角 */
+    border-bottom-right-radius: 0px;                                    /* 底部无圆角，贴合边缘 */
+}
+
+TitleBar QPushButton#TitleCloseBtn:pressed {
+    background: {{danger_pressed}};                                     /* 按下态深红 */
+}
+
+
+/* ============================================================================== */
+/* [3] 左侧系统导航栏 (Left Sidebar)                                              */
+/* ============================================================================== */
+#LeftSidebar {
+    background-color: {{bg_sidebar}};                                   /* 导航底板 */
+    border: none;
+}
+
+GameItem {
+    background-color: transparent;
+    color: {{text_secondary}};                                          /* 未选中为辅助色 */
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    text-align: left;
+    padding-left: 20px;
+    border-left: 4px solid transparent;                                 /* 预留物理指示条 */
+}
+
+GameItem:hover {
+    background-color: {{hover_bg}};                                     /* 悬浮态微亮背景 */
+    color: {{text_primary}};                                            /* 悬浮态主色文字 */
+}
+
+GameItem:checked {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                stop:0 {{accent_bg_15}},
+                stop:1 transparent);                                    /* 主题色渐变扫光 */
+    color: {{accent_primary}};                                          /* 文本变主题色 */
+    border-left: 4px solid {{accent_primary}};                          /* 左侧亮起物理推杆 */
+    font-weight: 700;
+}
+
+
+/* ============================================================================== */
+/* [4] 全局通用抽象组件 (弹窗、表格、全局进度条等)                                */
+/* ============================================================================== */
+
+/* 4.1 进度条轨道 */
+#Progress {
+    background-color: {{progress_bg}};                                  /* 半透明深色轨道底 */
+    border: 1px solid {{border_default}};                               /* 微弱边框 */
+    border-radius: 6px;
+}
+
+#Progress::chunk {
+    background-color: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                      stop:0 {{accent_gradient_start}},
+                      stop:1 {{accent_gradient_end}});                  /* 全局统一主题色渐变 */
+    border-radius: 5px;
+}
+
+/* 4.2 数据表格 (CinemaTableWidget) */
+CinemaTableWidget {
+    background: transparent;
+    alternate-background-color: {{table_alt_bg}};                       /* 交替行微亮背景 */
+    border: 1px solid {{border_default}};                               /* 微弱边框 */
+    gridline-color: {{gridline}};                                       /* 极淡网格线 */
+    color: {{text_tertiary}};                                           /* 柔和亮灰白文字 */
+    font-size: 13px;
+}
+
+CinemaTableWidget::item {
+    padding: 4px 8px;
+    border-bottom: 1px solid {{border_item}};                           /* 行底部分割线 */
+}
+
+CinemaTableWidget::item:selected {
+    background-color: {{accent_bg_10}};                                 /* 选中行主题色半透背景 */
+    color: {{accent_primary}};                                          /* 选中行主题色文字 */
+}
+
+CinemaTableWidget QHeaderView::section {
+    background-color: {{bg_titlebar}};                                  /* 表头深色背景 */
+    color: {{text_secondary}};                                          /* 表头辅助色文字 */
+    border: none;
+    border-right: 1px solid {{border_item}};                            /* 列间分割线 */
+    border-bottom: 2px solid {{border_table_header}};                   /* 表头底部强阴影 */
+    padding: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* 4.3 自定义弹窗底板 (CinemaDialogBase) */
+#CinemaDialogBase {
+    background-color: {{bg_secondary}};                                 /* 弹窗底色 */
+    border: 1px solid {{border_accent}};                                /* 主题色半透边框 */
+}
+
+#DialogTitleBar {
+    background-color: {{bg_titlebar}};                                  /* 标题栏深色背景 */
+    border-bottom: 1px solid {{border_default}};                        /* 标题栏底部分割线 */
+}
+
+#DialogTitleLabel {
+    color: {{text_tertiary}};                                           /* 柔和亮灰白文字 */
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#DialogBtnClose {
+    background: transparent;
+    border: none;
+    color: {{text_secondary}};                                          /* 辅助色关闭按钮 */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#DialogBtnClose:hover {
+    background-color: {{danger}};                                       /* 悬浮态警示红 */
+    color: #FFFFFF;                                                     /* 悬浮态纯白文字 */
+}
+
+#CinemaMsgLabel {
+    color: {{text_primary}};                                            /* 消息文本主色 */
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+/* 4.4 弹窗交互按钮组 */
+#btnCinemaInfo,
+#btnCinemaWarning,
+#btnCinemaError {
+    border: none;
+    border-radius: 6px;
+    color: #FFFFFF;                                                     /* 按钮文字纯白 */
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#btnCinemaInfo {
+    background-color: {{accent_gradient_start}};                        /* 信息按钮主题色底色 */
+}
+
+#btnCinemaInfo:hover {
+    background-color: {{accent_primary}};                               /* 悬浮态提亮 */
+}
+
+#btnCinemaInfo:pressed {
+    background-color: {{btn_pressed_start}};                            /* 按下态深色 */
+}
+
+#btnCinemaWarning {
+    background-color: #D48806;                                          /* 警告按钮橙色底色 */
+}
+
+#btnCinemaWarning:hover {
+    background-color: #FFB300;                                          /* 悬浮态提亮 */
+}
+
+#btnCinemaWarning:pressed {
+    background-color: #AD6800;                                          /* 按下态深橙 */
+}
+
+#btnCinemaError {
+    background-color: {{danger}};                                       /* 错误按钮红色底色 */
+}
+
+#btnCinemaError:hover {
+    background-color: {{danger_hover}};                                 /* 悬浮态提亮 */
+}
+
+#btnCinemaError:pressed {
+    background-color: {{danger_pressed}};                               /* 按下态深红 */
+}
+
+#btnCinemaCancel {
+    background: transparent;
+    border: 1px solid {{border_cancel}};                                /* 半透边框 */
+    border-radius: 6px;
+    color: {{text_secondary}};                                          /* 辅助色文字 */
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#btnCinemaCancel:hover {
+    background-color: {{hover_bg}};                                     /* 悬浮态微亮背景 */
+    border-color: {{border_cancel_hover}};                              /* 悬浮态边框加亮 */
+    color: {{text_primary}};                                            /* 悬浮态主色文字 */
+}
+
+#btnCinemaCancel:pressed {
+    background-color: {{pressed_bg}};                                   /* 按下态深色背景 */
+}
+
+
+/* ============================================================================== */
+/* [5] 业务模块：游戏安装窗口 (InstallWidget)                                     */
+/* ============================================================================== */
+
+/* 5.1 窗口底板 */
+InstallWidget {
+    background-color: {{bg_secondary}};                                 /* 模块底色 */
+}
+
+/* 5.2 列表表头 */
+InstallWidget #Header {
+    padding: 0px 15px;
+}
+
+InstallWidget #HeaderText {
+    color: {{text_secondary}};                                          /* 辅助色 */
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* 5.3 分隔线 */
+InstallWidget #Divider {
+    background: {{border_default}};                                     /* 分割线 */
+    border: none;
+}
+
+/* 5.4 列表容器 */
+InstallWidget #InstallListWrap {
+    background: transparent;
+    border: none;
+}
+
+/* 5.5 游戏行卡片 */
+InstallWidget #Row {
+    background-color: {{bg_card}};                                      /* 卡片底色 */
+    border: 1px solid {{border_default}};                               /* 微弱边框 */
+    border-radius: 12px;
+}
+
+InstallWidget #Row:hover {
+    background-color: {{accent_bg_05}};                                 /* 悬浮微亮主题色 */
+    border-color: {{border_hover}};                                     /* 主题色边框呼应 */
+}
+
+/* 5.6 行内文本与图标 */
+InstallWidget #GameName {
+    font-size: 15px;
+    font-weight: bold;
+    color: {{text_primary}};                                            /* 游戏名称主色 */
+}
+
+InstallWidget #GameIcon {
+    border-radius: 8px;
+}
+
+/* 5.7 版本号与地图尺寸标签 */
+InstallWidget #RowVersionLabel,
+InstallWidget #RowMapLabel {
+    font-size: 14px;
+    font-weight: bold;
+    color: {{text_tertiary}};                                           /* 柔和亮灰白，不抢主标题风头 */
+    font-family: "Consolas", "Microsoft YaHei", sans-serif;             /* 英文和数字优先使用 Consolas 等宽字体 */
+}
+
+/* 5.8 安装进度条卡片 */
+InstallWidget #InstallBox {
+    background-color: {{bg_card}};                                      /* 卡片底色 */
+    border: 1px solid {{border_accent}};                                /* 主题色边框提示 */
+    border-radius: 12px;
+}
+
+InstallWidget #InstallIcon {
+    color: {{accent_primary}};                                          /* 安装图标主题色 */
+}
+
+InstallWidget #InstallTitle {
+    color: {{text_primary}};                                            /* 安装标题主色 */
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* 5.9 安装进度条 */
+InstallWidget QProgressBar#InstallBar {
+    background: {{progress_bg}};                                        /* 轨道底 */
+    border: 1px solid {{border_progress}};                              /* 边框 */
+    border-radius: 8px;
+    padding: 2px;
+}
+
+InstallWidget QProgressBar#InstallBar::chunk {
+    border-radius: 6px;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                stop:0 {{accent_gradient_start}},
+                stop:1 {{accent_gradient_end}});                        /* 主题色渐变进度条 */
+}
+
+/* 5.10 安装按钮 */
+InstallWidget QPushButton#InstallBtn {
+    color: {{text_primary}};                                            /* 按钮文字主色 */
+    font-family: "Microsoft YaHei", sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 2px;                                                /* 增加字间距，提升精致感 */
+    padding-left: 2px;                                                  /* 补偿字间距带来的轻微偏移 */
+    border: 1px solid {{border_btn_accent}};                            /* 主题色半透边框，勾勒轮廓 */
+    border-radius: 6px;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                stop:0 {{btn_gradient_start}},
+                stop:1 {{btn_gradient_end}});                           /* 主题色渐变底色 */
+}
+
+InstallWidget QPushButton#InstallBtn:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                stop:0 {{btn_hover_start}},
+                stop:1 {{btn_hover_end}});                              /* 悬浮态提亮 */
+    border: 1px solid {{accent_primary}};                               /* 边框高亮发光 */
+}
+
+InstallWidget QPushButton#InstallBtn:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                stop:0 {{btn_pressed_start}},
+                stop:1 {{btn_pressed_end}});                            /* 按下态下潜 */
+    border: 1px solid {{border_pressed}};                               /* 边框随之暗淡 */
+    margin-top: 2px;                                                    /* 按钮整体往下沉 2px */
+    margin-bottom: -2px;                                                /* 利用负边距吃掉位移，防止撑大所在的布局 */
+    padding-top: 1px;                                                   /* 内部文字跟着产生细微位移 */
+}
+
+
+/* ============================================================================== */
+/* [6] 业务模块：游戏房间/设备控制窗口 (RoomWidget & DeviceRow)                   */
+/* ============================================================================== */
+
+/* ------------------------------------------------------------------------------ */
+/* 6.1 房间主视图 (RoomWidget)                                                    */
+/* ------------------------------------------------------------------------------ */
+
+/* 6.1.1 窗口底板 */
+RoomWidget {
+    background-color: {{bg_secondary}};                                 /* 模块底色 */
+}
+
+/* 6.1.2 顶部大标题 */
+RoomWidget #RoomTitle {
+    font-size: 26px;
+    font-weight: bold;
+    color: {{text_primary}};                                            /* 标题主色 */
+    letter-spacing: 1px;                                                /* 字间距微调 */
+}
+
+/* 6.1.3 列表表头 */
+RoomWidget #RoomHeadWidget {
+    background: transparent;
+}
+
+RoomWidget #HeadsetLabel,
+RoomWidget #StartTimeLabel,
+RoomWidget #DeviceCmdLabel {
+    color: {{text_secondary}};                                          /* 表头辅助色文字 */
+    font-weight: bold;
+    font-size: 14px;
+}
+
+RoomWidget #RoomVLine {
+    color: {{border_default}};                                          /* 竖线分隔 */
+}
+
+/* 6.1.4 底部全局开始游戏按钮 */
+RoomWidget QPushButton#StartBtn {
+    color: {{text_primary}};                                            /* 按钮文字主色 */
+    font-family: "Microsoft YaHei", sans-serif;
+    font-weight: 900;                                                   /* 极限加粗，凸显主操作 */
+    font-size: 22px;
+    letter-spacing: 6px;                                                /* 拉大字间距，更具呼吸感和高级感 */
+    padding-left: 6px;                                                  /* 补偿字间距带来的视觉偏移 */
+    border: 1px solid {{border_btn_accent}};                            /* 主题色基础边框 */
+    border-radius: 8px;
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                stop:0 {{btn_start_start}},
+                stop:1 {{btn_start_end}});                              /* 主题色渐变背景 */
+}
+
+RoomWidget QPushButton#StartBtn:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                stop:0 {{btn_start_hover_start}},
+                stop:1 {{btn_start_hover_end}});                        /* 悬浮态提亮 */
+    border: 1px solid {{accent_primary}};                               /* 边框高亮发光 */
+    color: {{text_primary}};                                            /* 文字保持主色 */
+}
+
+RoomWidget QPushButton#StartBtn:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+                stop:0 {{btn_start_pressed_start}},
+                stop:1 {{btn_start_pressed_end}});                      /* 按下态下压 */
+    border: 1px solid {{border_pressed}};                               /* 边框暗淡 */
+    margin-top: 2px;                                                    /* 按钮整体往下沉 2px */
+    margin-bottom: -2px;                                                /* 抵消 margin-top 导致的外部布局抖动 */
+    padding-top: 2px;                                                   /* 内部文字跟着产生细微位移，立体感拉满 */
+}
+
+
+/* ------------------------------------------------------------------------------ */
+/* 6.2 设备控制列表行内组件 (DeviceRow)                                           */
+/* ------------------------------------------------------------------------------ */
+
+/* 6.2.1 勾选框 */
+QCheckBox#DeviceCheckBox {
+    spacing: 8px;
+    color: {{text_tertiary}};                                           /* 柔和亮灰白文字 */
+    font-weight: bold;
+}
+
+QCheckBox#DeviceCheckBox::indicator {
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;                                                 /* 圆形指示器 */
+    border: 1px solid {{border_cancel}};                                /* 半透边框 */
+    background: {{checkbox_bg}};                                        /* 指示器底色 */
+}
+
+QCheckBox#DeviceCheckBox::indicator:checked {
+    image: url(:/demand/Images/Login/BoxCheck.png);                     /* 选中态自定义图标 */
+    border: none;
+}
+
+/* 6.2.2 通用工具按钮 */
+QToolButton#DeviceIconBtn,
+QToolButton#ClearTimeBtn,
+QToolButton#RemoveBtn {
+    background: transparent;
+    border: none;
+}
+
+QToolButton#DeviceIconBtn:hover,
+QToolButton#ClearTimeBtn:hover,
+QToolButton#RemoveBtn:hover {
+    background: {{hover_toolbtn}};                                      /* 悬浮态微亮背景 */
+    border-radius: 6px;
+}
+
+QToolButton#DeviceIconBtn:pressed,
+QToolButton#ClearTimeBtn:pressed,
+QToolButton#RemoveBtn:pressed {
+    background: {{pressed_toolbtn}};                                    /* 按下态更亮背景 */
+}
+
+/* 6.2.3 设备名称输入框 */
+QLineEdit#DeviceNameEdit {
+    background: transparent;                                            /* 默认透明，与背景融为一体 */
+    color: {{text_primary}};                                            /* 文字主色 */
+    font-size: 14px;
+    font-weight: bold;
+    border: 1px solid transparent;                                      /* 默认无边框 */
+    border-radius: 4px;
+    padding: 2px 6px;
+}
+
+QLineEdit#DeviceNameEdit:hover {
+    background: {{hover_bg}};                                           /* 悬浮时暗示可编辑 */
+    border: 1px solid {{border_input_hover}};                           /* 悬浮时微亮边框 */
+}
+
+QLineEdit#DeviceNameEdit:focus {
+    background: {{input_focus_bg}};                                     /* 聚焦时背景 */
+    border: 1px solid {{accent_primary}};                               /* 聚焦时亮起主题色 */
+}
+
+/* 6.2.4 游玩时间输入框 */
+QLineEdit#PlayTimeEdit {
+    color: {{accent_primary}};                                          /* 强调游戏时间数值 */
+    font-weight: bold;
+    border: 1px solid {{border_input}};                                 /* 微弱边框 */
+    border-radius: 6px;
+    padding: 2px 6px;
+    background: {{input_bg}};                                           /* 深色背景 */
+    max-width: 100px;                                                   /* 限制最大宽度，防止大白条撑满屏幕 */
+}
+
+QLineEdit#PlayTimeEdit:focus {
+    border: 1px solid {{accent_primary}};                               /* 聚焦高亮 */
+}
+
+/* 6.2.5 队伍下拉选择框 */
+QComboBox#TeamComboBox {
+    border: 1px solid {{border_input}};                                 /* 微弱边框 */
+    border-radius: 6px;
+    padding: 2px 10px;
+    background-color: {{bg_dropdown}};                                  /* 下拉框背景 */
+    color: {{text_tertiary}};                                           /* 柔和亮灰白文字 */
+    min-width: 80px;                                                    /* 限制最小宽度 */
+}
+
+QComboBox#TeamComboBox:hover {
+    border-color: {{border_combo_hover}};                               /* 悬浮态主题色边框 */
+    background-color: {{bg_dropdown_hover}};                            /* 悬浮态微亮背景 */
+}
+
+QComboBox#TeamComboBox::drop-down {
+    border: none;
+    width: 25px;
+}
+
+QComboBox#TeamComboBox QAbstractItemView {
+    background-color: {{bg_dropdown_item}};                             /* 下拉列表背景 */
+    border: 1px solid {{border_accent}};                                /* 主题色半透边框 */
+    border-radius: 6px;
+    color: {{text_primary}};                                            /* 下拉项文字主色 */
+    selection-background-color: {{accent_bg_15}};                       /* 选中项主题色半透背景 */
+    selection-color: {{accent_primary}};                                /* 选中项主题色文字 */
+    outline: none;
+}
+
+QComboBox#TeamComboBox QAbstractItemView::item {
+    height: 28px;
+    padding: 0 8px;
+    text-align: center;                                                 /* 下拉项文字居中 */
+}
+
+
+/* ------------------------------------------------------------------------------ */
+/* 6.3 状态指示灯与全局悬浮提示 (QToolTip)                                        */
+/* ------------------------------------------------------------------------------ */
+
+/* 6.3.1 在线状态指示灯 */
+QFrame#DeviceOnlineLamp {
+    border-radius: 7px;                                                 /* 圆形指示灯 */
+}
+
+QFrame#DeviceOnlineLamp[isOnline="false"] {
+    background-color: {{status_offline}};                               /* 离线警示色 */
+    border: 1px solid {{status_offline_border}};                        /* 微弱发光边框 */
+}
+
+QFrame#DeviceOnlineLamp[isOnline="true"] {
+    background-color: {{status_online}};                                /* 在线色 */
+    border: 1px solid {{status_online_border}};                         /* 微弱发光边框 */
+}
+
+/* 6.3.2 全局悬浮提示框 */
+QToolTip {
+    background-color: {{bg_card}};                                      /* 深灰蓝浮雕底色 */
+    color: {{accent_primary}};                                          /* 主题色高亮文字 */
+    border: 1px solid {{border_hover}};                                 /* 主题色边框 */
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-family: "Microsoft YaHei", sans-serif;
+    font-weight: bold;
+}
+
+
+/* ============================================================================== */
+/* [7] 业务模块：系统设置页 (SettingWidget)                                       */
+/* ============================================================================== */
+
+/* 7.1 窗口底板 */
+#SettingWidget {
+    background-color: {{bg_secondary}};                                 /* 模块底色 */
+}
+
+/* 7.2 主标题 */
+#settingMainTitle {
+    font-size: 26px;
+    font-weight: bold;
+    color: {{text_primary}};                                            /* 标题主色 */
+    letter-spacing: 2px;                                                /* 字间距拉开 */
+}
+
+/* 7.3 设置分组框 */
+#settingGroupFrame {
+    background-color: {{bg_card}};                                      /* 卡片底色 */
+    border: 1px solid {{border_default}};                               /* 微弱边框 */
+    border-radius: 12px;
+}
+
+#settingGroupTitle {
+    font-size: 16px;
+    font-weight: bold;
+    color: {{text_secondary}};                                          /* 分组标题辅助色 */
+    border-bottom: 1px solid {{border_default}};                        /* 标题底部分割线 */
+    padding-bottom: 10px;
+}
+
+/* 7.4 下拉选择框 */
+#settingComboBox {
+    background-color: {{bg_dropdown}};                                  /* 下拉框背景 */
+    color: {{text_tertiary}};                                           /* 柔和亮灰白文字 */
+    border: 1px solid {{border_input}};                                 /* 微弱边框 */
+    border-radius: 6px;
+    padding: 5px 15px;
+}
+
+#settingComboBox:hover {
+    border-color: {{border_combo_hover}};                               /* 悬浮态主题色边框 */
+    background-color: {{bg_dropdown_hover}};                            /* 悬浮态微亮背景 */
+}
+
+#settingComboBox::drop-down {
+    border: none;
+    width: 30px;
+}
+
+#settingComboBox QAbstractItemView {
+    background-color: {{bg_dropdown_item}};                             /* 下拉列表背景 */
+    border: 1px solid {{border_accent}};                                /* 主题色半透边框 */
+    border-radius: 6px;
+    color: {{text_primary}};                                            /* 下拉项文字主色 */
+    selection-background-color: {{accent_bg_15}};                       /* 选中项主题色半透背景 */
+    selection-color: {{accent_primary}};                                /* 选中项主题色文字 */
+    outline: none;
+}
+
+
+/* ============================================================================== */
+/* [8] 业务模块：充值中心页 (WalletWidget)                                        */
+/* ============================================================================== */
+
+/* 8.1 窗口底板 */
+WalletWidget {
+    background-color: {{bg_secondary}};                                 /* 模块底色 */
+}
+
+/* 8.2 顶部卡片 */
+#WalletTopCard {
+    background-color: {{bg_card}};                                      /* 卡片底色 */
+    border: 1px solid {{border_default}};                               /* 微弱边框 */
+    border-radius: 12px;
+}
+
+#WalletUsername {
+    color: {{text_secondary}};                                          /* 用户名辅助色 */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#WalletPointsTitle {
+    color: {{text_tertiary}};                                           /* 积分标题辅助色 */
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+#WalletPointsValue {
+    color: {{wallet_points}};                                           /* 积分数值强调色 */
+    font-size: 48px;
+    font-weight: 900;
+    font-family: "Consolas", sans-serif;                                /* 数字使用等宽字体 */
+}
+
+/* 8.3 Tab 页签 */
+#WalletTab::pane {
+    border: 1px solid {{border_default}};                               /* 微弱边框 */
+    background-color: {{bg_secondary}};                                 /* 页签面板底色 */
+    border-radius: 8px;
+}
+
+#WalletTab QTabBar::tab {
+    background: transparent;
+    color: {{text_secondary}};                                          /* 未选中辅助色 */
+    font-size: 16px;
+    font-weight: bold;
+    min-width: 130px;
+    padding: 10px 15px;
+    border-bottom: 3px solid transparent;                               /* 预留底部指示条 */
+    margin-right: 2px;
+}
+
+#WalletTab QTabBar::tab:hover {
+    color: {{text_primary}};                                            /* 悬浮态主色 */
+    background-color: {{hover_bg}};                                     /* 悬浮态微亮背景 */
+}
+
+#WalletTab QTabBar::tab:selected {
+    color: {{accent_primary}};                                          /* 选中态主题色 */
+    border-bottom: 3px solid {{accent_primary}};                        /* 底部主题色指示条 */
+}
+
+/* 8.4 商品卡片按钮 */
+#GoodsCardBtn {
+    background-color: {{goods_card_bg}};                                /* 商品卡片底色 */
+    border: 2px solid {{border_default}};                               /* 微弱边框 */
+    border-radius: 12px;
+}
+
+#GoodsCardBtn:hover {
+    background-color: {{accent_bg_05}};                                 /* 悬浮态主题色微亮 */
+    border: 2px solid {{border_hover}};                                 /* 悬浮态主题色边框 */
+}
+
+#GoodsCardBtn:pressed {
+    background-color: {{accent_bg_10}};                                 /* 按下态主题色加深 */
+    border: 2px solid {{accent_primary}};                               /* 按下态纯主题色边框 */
+    padding-top: 2px;                                                   /* 按下态微位移 */
+}
+
+#GoodsPointsLabel {
+    color: {{text_primary}};                                            /* 商品积分主色 */
+    font-size: 24px;
+    font-weight: 900;
+}
+
+#GoodsNameLabel {
+    color: {{text_secondary}};                                          /* 商品名称辅助色 */
+    font-size: 12px;
+    font-weight: normal;
+    padding: 0px 5px;
+}
+
+
+/* ============================================================================== */
+/* [9] 业务模块：账号面板与登录层 (AccountWidget & LoginWidget)                   */
+/* ============================================================================== */
+
+/* ------------------------------------------------------------------------------ */
+/* 9.1 账号面板 (AccountWidget)                                                   */
+/* ------------------------------------------------------------------------------ */
+#accountPanel {
+    background-color: {{bg_secondary}};                                 /* 模块底色 */
+    border: 1px solid {{border_input}};                                 /* 微弱边框 */
+    border-radius: 10px;
+}
+
+QLabel#keyLabel {
+    color: {{text_secondary}};                                          /* 键名辅助色 */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+QLabel#valueLabel {
+    color: {{accent_primary}};                                          /* 键值主题色 */
+    font-size: 18px;
+    font-weight: bold;
+}
+
+QPushButton#switchBtn {
+    background-color: {{switch_btn_bg}};                                /* 红色半透背景 */
+    color: {{switch_btn_text}};                                         /* 切换按钮警示色 */
+    border: 1px solid {{switch_btn_border}};                            /* 红色半透边框 */
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 0px;
+}
+
+QPushButton#switchBtn:hover {
+    background-color: {{switch_btn_hover_bg}};                          /* 悬浮态纯色背景 */
+    color: #FFFFFF;                                                     /* 悬浮态纯白文字 */
+}
+
+QPushButton#switchBtn:pressed {
+    background-color: {{switch_btn_pressed_bg}};                        /* 按下态深色 */
+    padding-top: 2px;                                                   /* 按下态微位移 */
+}
+
+
+/* ------------------------------------------------------------------------------ */
+/* 9.2 登录窗口 (LoginWidget)                                                     */
+/* ------------------------------------------------------------------------------ */
+
+/* 9.2.1 窗口底板 */
+LoginWidget {
+    background: transparent;
+}
+
+/* 9.2.2 登录面板 */
+LoginWidget #loginPanel {
+    background-color: {{bg_secondary}};                                 /* 模块底色 */
+    border-top: 1px solid {{border_default}};                           /* 顶部分割线 */
+    border-radius: 8px;
+}
+
+LoginWidget #fieldLabel {
+    color: {{text_secondary}};                                          /* 字段标签辅助色 */
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;                                          /* 标签大写 */
+}
+
+/* 9.2.3 输入框 */
+LoginWidget QLineEdit#loginInput {
+    background-color: {{bg_input}};                                     /* 输入框深色背景 */
+    border: 1px solid {{border_login_input}};                           /* 深灰边框 */
+    border-radius: 4px;
+    height: 40px;
+    color: {{text_tertiary}};                                           /* 输入文字柔和亮灰白 */
+    padding-left: 12px;
+    padding-right: 40px;                                                /* 右侧留出眼睛按钮空间 */
+}
+
+LoginWidget QLineEdit#loginInput:focus {
+    border: 1px solid {{accent_primary}};                               /* 聚焦主题色边框 */
+    background-color: {{bg_input_focus}};                               /* 聚焦时背景加深 */
+}
+
+/* 9.2.4 密码眼睛按钮 — QSS 纯自绘 */
+LoginWidget QPushButton#PasswordEyeBtn {
+    background: transparent;
+    border: 2px solid {{text_secondary}};                               /* 外圆边框 */
+    border-radius: 12px;                                                /* 圆形 (24x24) */
+    min-width: 24px;
+    max-width: 24px;
+    min-height: 24px;
+    max-height: 24px;
+    padding: 0px;
+}
+
+LoginWidget QPushButton#PasswordEyeBtn:hover {
+    background: {{hover_toolbtn}};                                      /* 悬浮态微亮背景 */
+    border-color: {{accent_primary}};                                   /* 悬浮态主题色边框 */
+}
+
+/* 闭眼状态：外圆 */
+LoginWidget QPushButton#PasswordEyeBtn[isOpen="false"] {
+    border: 2px solid {{text_secondary}};
+    border-radius: 12px;
+}
+
+/* 睁眼状态：外圆 + 填充中心点 (模拟眼球) */
+LoginWidget QPushButton#PasswordEyeBtn[isOpen="true"] {
+    border: 2px solid {{accent_primary}};
+    border-radius: 12px;
+    background: qradialgradient(cx:0.5, cy:0.5, radius:0.3,
+                fx:0.5, fy:0.5,
+                stop:0 {{accent_primary}},
+                stop:1 transparent);                                    /* 中心实心点，模拟睁眼瞳孔 */
+}
+
+/* 9.2.5 登录提交按钮 */
+LoginWidget QPushButton#loginSubmitBtn {
+    background-color: {{accent_primary}};                               /* 主题色纯色背景 */
+    color: {{text_primary}};                                            /* 按钮文字主色 */
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 4px;
+    border: none;
+}
+
+LoginWidget QPushButton#loginSubmitBtn:hover {
+    background-color: {{accent_hover}};                                 /* 悬浮态提亮 */
+}
+
+LoginWidget QPushButton#loginSubmitBtn:pressed {
+    background-color: {{accent_pressed}};                               /* 按下态深色 */
+    padding-top: 2px;                                                   /* 按下态微位移 */
+}
+
+/* 9.2.6 记住密码复选框 */
+LoginWidget QCheckBox#loginCheckBox {
+    color: {{text_secondary}};                                          /* 复选框文字辅助色 */
+    font-size: 12px;
+}
+
+LoginWidget QCheckBox#loginCheckBox::indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 2px;                                                 /* 方形指示器微圆角 */
+    border: 1px solid {{border_login_input}};                           /* 深灰边框 */
+    background: {{bg_input}};                                           /* 深色背景 */
+}
+
+LoginWidget QCheckBox#loginCheckBox::indicator:checked {
+    background: {{accent_primary}};                                     /* 选中态主题色背景 */
+    border: 1px solid {{accent_primary}};                               /* 选中态主题色边框 */
+}

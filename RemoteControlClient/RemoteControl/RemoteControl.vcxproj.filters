@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Global">
+      <UniqueIdentifier>{08e5c4ba-612c-4724-b5a3-4a4f8a81ff2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TCP">
+      <UniqueIdentifier>{2271b72c-271d-4dc5-9207-d6de52f10bab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Global">
+      <UniqueIdentifier>{1ed00855-b01e-4b50-9327-192aa16774e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TCP">
+      <UniqueIdentifier>{ad71b524-02df-49ee-acf9-e1384093dca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\User">
+      <UniqueIdentifier>{9256042a-136b-4925-8a67-ba803c024a76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\User">
+      <UniqueIdentifier>{4b0fabb9-34ef-42be-a8dd-93f16675d531}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SELF_UI">
+      <UniqueIdentifier>{96ba589f-cb65-43b9-90a8-ad0e4fdce781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SELF_UI\StackPage">
+      <UniqueIdentifier>{706b8da4-5dae-494f-b3d1-0d33a9d71849}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SELF_UI">
+      <UniqueIdentifier>{96d4ac41-eb91-40aa-b757-d70e5b22696a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SELF_UI\StackPage">
+      <UniqueIdentifier>{83c1026c-4fc5-4158-9af3-a23fb258c849}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SELF_UI\StackPage\Setting">
+      <UniqueIdentifier>{cd8c8c99-c9df-4061-84e3-f9524d8a5d2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SELF_UI\StackPage\Setting">
+      <UniqueIdentifier>{67be5085-4988-47bc-b078-a0693b425726}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ThreadPool">
+      <UniqueIdentifier>{44051705-3d32-4437-95da-2e1404e8214e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ThreadPool">
+      <UniqueIdentifier>{b14af0d5-cf8a-4e21-9a7a-0a824e39a89b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ControlHub">
+      <UniqueIdentifier>{2ed8822c-fe73-4e00-a0ed-b00243a23e0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ControlHub">
+      <UniqueIdentifier>{713393fe-2644-440f-b939-e3f024ce6369}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Proto">
+      <UniqueIdentifier>{56edaf7c-54fa-4211-bcb1-b800a8fc5191}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Pb">
+      <UniqueIdentifier>{f81c9fdf-3c8d-4384-b48f-5ef1d3623426}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Pb">
+      <UniqueIdentifier>{418192f4-27ba-4b8e-9ae8-864e560c3d21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CustomUI">
+      <UniqueIdentifier>{b4cc78a8-0630-4a7b-8a29-53a9878b7274}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\CustomUI">
+      <UniqueIdentifier>{759726af-1b2b-4f98-aa72-1fec16a9a2be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="QSS">
+      <UniqueIdentifier>{91ea5fd2-4e17-4ee4-8690-fe53cd879ec3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SQL">
+      <UniqueIdentifier>{bb6bd4b1-5ce4-4b7b-90bb-9a04ad811459}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SELF_UI\Common">
+      <UniqueIdentifier>{42995295-f463-4617-b6d0-30b5733ec3cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SELF_UI\Common">
+      <UniqueIdentifier>{ce7a11c8-7e1c-49b7-abb8-c4c3de58f3f7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="mainWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtMoc Include="mainWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClCompile Include="mainWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <QtUic Include="HeroZoneWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Global.cpp">
+      <Filter>Source Files\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="LogRecord.cpp">
+      <Filter>Source Files\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPMgr.cpp">
+      <Filter>Source Files\TCP</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlHubWindow.cpp">
+      <Filter>Source Files\ControlHub</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonTool.cpp">
+      <Filter>Source Files\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="UserMgr.cpp">
+      <Filter>Source Files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="GameItem.cpp">
+      <Filter>Source Files\SELF_UI\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingWidget.cpp">
+      <Filter>Source Files\SELF_UI\StackPage\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingWidget.cpp">
+      <Filter>Source Files\SELF_UI\StackPage\Setting</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleBar.cpp">
+      <Filter>Source Files\SELF_UI\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountWidget.cpp">
+      <Filter>Source Files\SELF_UI\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadPool.cpp">
+      <Filter>Source Files\ThreadPool</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkerThread.cpp">
+      <Filter>Source Files\ThreadPool</Filter>
+    </ClCompile>
+    <ClCompile Include="server_msg.pb.cc">
+      <Filter>Source Files\Pb</Filter>
+    </ClCompile>
+    <ClCompile Include="common.pb.cc">
+      <Filter>Source Files\Pb</Filter>
+    </ClCompile>
+    <ClCompile Include="CinemaDialogBase.cpp">
+      <Filter>Source Files\CustomUI</Filter>
+    </ClCompile>
+    <ClCompile Include="CinemaDialogBase.cpp">
+      <Filter>Source Files\CustomUI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Enum.h">
+      <Filter>Header Files\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Global.h">
+      <Filter>Header Files\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Macro.h">
+      <Filter>Header Files\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="singletion.h">
+      <Filter>Header Files\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="server_msg.pb.h">
+      <Filter>Header Files\Pb</Filter>
+    </ClInclude>
+    <ClInclude Include="common.pb.h">
+      <Filter>Header Files\Pb</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.h">
+      <Filter>Header Files\Global</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="LoginWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="LogRecord.h">
+      <Filter>Header Files\Global</Filter>
+    </QtMoc>
+    <QtMoc Include="TCPMgr.h">
+      <Filter>Header Files\TCP</Filter>
+    </QtMoc>
+    <QtMoc Include="ControlHubWindow.h">
+      <Filter>Header Files\ControlHub</Filter>
+    </QtMoc>
+    <QtMoc Include="JsonTool.h">
+      <Filter>Header Files\Global</Filter>
+    </QtMoc>
+    <QtMoc Include="UserMgr.h">
+      <Filter>Header Files\User</Filter>
+    </QtMoc>
+    <QtMoc Include="GameItem.h">
+      <Filter>Header Files\SELF_UI\Common</Filter>
+    </QtMoc>
+    <QtMoc Include="SettingWidget.h">
+      <Filter>Header Files\SELF_UI\StackPage\Setting</Filter>
+    </QtMoc>
+    <QtMoc Include="TitleBar.h">
+      <Filter>Header Files\SELF_UI\Common</Filter>
+    </QtMoc>
+    <QtMoc Include="AccountWidget.h">
+      <Filter>Header Files\SELF_UI\Common</Filter>
+    </QtMoc>
+    <QtMoc Include="AccountWidget.h">
+      <Filter>Header Files\SELF_UI\GameList</Filter>
+    </QtMoc>
+    <QtMoc Include="ThreadPool.h">
+      <Filter>Header Files\ThreadPool</Filter>
+    </QtMoc>
+    <QtMoc Include="WorkerThread.h">
+      <Filter>Header Files\ThreadPool</Filter>
+    </QtMoc>
+    <QtMoc Include="CinemaDialogBase.h">
+      <Filter>Header Files\CustomUI</Filter>
+    </QtMoc>
+    <QtMoc Include="CinemaMessageBox.h">
+      <Filter>Header Files\CustomUI</Filter>
+    </QtMoc>
+    <QtMoc Include="CinemaTableWidget.h">
+      <Filter>Header Files\CustomUI</Filter>
+    </QtMoc>
+    <QtMoc Include="CinemaPayDialog.h">
+      <Filter>Header Files\CustomUI</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="demand.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="server_msg.proto">
+      <Filter>Header Files\Proto</Filter>
+    </None>
+    <None Include="common.proto">
+      <Filter>Header Files\Proto</Filter>
+    </None>
+    <None Include="build_proto.bat">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="StyleSheet\template.qss">
+      <Filter>QSS</Filter>
+    </None>
+    <None Include="Sql\PayData.sql">
+      <Filter>SQL</Filter>
+    </None>
+    <None Include="Sql\RailCineControl.sql">
+      <Filter>SQL</Filter>
+    </None>
+    <None Include="StyleSheet\themes.json">
+      <Filter>QSS</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="demand.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="images\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Images\Demand.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <QtTranslation Include="DemandStation_en.ts">
+      <Filter>Translation Files</Filter>
+    </QtTranslation>
+  </ItemGroup>
+</Project>

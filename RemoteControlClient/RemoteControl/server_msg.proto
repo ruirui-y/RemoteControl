@@ -1,0 +1,23 @@
+﻿syntax = "proto3";
+
+import "common.proto";
+
+package ServerApi;
+
+// =========================================================================================
+// 1. 登录与心跳保活业务
+// =========================================================================================
+message LoginReq {
+    string username = 1;                                                        // 厂家后台分配的账号
+    string password = 2;                                                        // 登录密码 (建议客户端做个MD5后再传)
+}
+
+message LoginRsp {
+    int64  server_time        = 1;                                              // 服务器同步时间戳
+    int32  user_device_counts = 2;                                              // 用户设备数量
+    string game_name          = 3;                                              // 所属游戏名称 (如 "PVP", "MiniWorld" 等)
+}
+
+message Heartbeat {
+    int64 timestamp = 1;                                                        // 客户端当前时间戳
+}
